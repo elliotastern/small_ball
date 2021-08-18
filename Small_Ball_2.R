@@ -2,20 +2,17 @@ library(dplyr)
 library(ggplot2)
 
 # #Import Data
-# nba <- read.csv("file:///C:/Users/stern/Documents/nba_2015_16.csv", stringsAsFactors = FALSE)
-
-# #Import Data
 nba <- read.csv("file:///C:/Users/stern/Downloads/nba_2014_15.csv", stringsAsFactors = FALSE)
 
-#Clean Date column
+# Clean Date column
 nba$DATE <- as.Date(nba$DATE, format = "%m/%d/%Y")
 
-#Limit to Cleveland Games
+# Limit to Cleveland Games
 cleveland <- nba %>%
   filter(TEAMS == "Cleveland") %>%
   filter(DATASET == "2014-2015 Regular Season")   
 
-#Add Mozgov column to split by
+# Add Mozgov column to split by
 cleveland$Mozgov <- ifelse(cleveland$DATE > as.Date("2015-01-09", format = "%Y-%m-%d"), "With Mozgov 2014-15", "Without Mozgov 2014-15")
   
 
@@ -36,12 +33,10 @@ ggplot(cleveland, aes(x = DATE, y = DEFF, color = Mozgov)) +
   geom_point() +
   geom_boxplot(alpha = .4)  +
   theme_minimal()
-  # geom_hline(yintercept=with_moz,    color = "red")+
-  # geom_hline(yintercept=without_moz, color = "turquoise") 
+
 
 ggplot(cleveland, aes(x = DATE, y = DEFF, color = Mozgov)) +
   geom_point() +
-  # geom_boxplot(alpha = .4)  +
   geom_hline(yintercept=with_moz,    color = "turquoise",       lwd = 2)+
   geom_hline(yintercept=without_moz, color = "red", lwd = 2)+
   theme_minimal() +
@@ -50,21 +45,21 @@ ggplot(cleveland, aes(x = DATE, y = DEFF, color = Mozgov)) +
 
 
 
-#Import Data
+# Import Data
 nba16 <- read.csv("file:///C:/Users/stern/Documents/nba_2015_16.csv", stringsAsFactors = FALSE)
 
 
-#Clean Date column
+# Clean Date column
 nba16$DATE <- as.Date(nba16$DATE, format = "%m/%d/%Y")
 
-#Limit to Cleveland Games
+# Limit to Cleveland Games
 cleveland16 <- nba16 %>%
   filter(TEAMS == "Cleveland") %>%
   filter(DATASET == "2015-2016 Regular Season")   
 
 with_moz16    <-mean(cleveland16$DEFF)
 
-#Add Mozgov column to split by
+# Add Mozgov column to split by
 cleveland16$Mozgov <- "With Mozgov 2015-16"
 
 cleveland_combined <- rbind(cleveland[c("DATE", "DEFF", "Mozgov")]
@@ -75,21 +70,20 @@ ggplot(cleveland_combined, aes(x = DATE, y = DEFF, color = Mozgov)) +
   geom_boxplot(alpha = .4)  +
   theme_minimal()
 
-#Import Data
+# Import Data
 nba17 <- read.csv("file:///C:/Users/stern/Documents/nba_2016_17.csv", stringsAsFactors = FALSE)
 
 
-#Clean Date column
+# Clean Date column
 nba17$DATE <- as.Date(nba17$DATE, format = "%m/%d/%Y")
 
-#Limit to Cleveland Games
+# Limit to Cleveland Games
 cleveland17 <- nba17 %>%
   filter(TEAMS == "Cleveland")
-  # filter(DATASET == "2015-2016 Regular Season")   
 
 without_moz17    <-mean(cleveland17$DEFF)
 
-#Add Mozgov column to split by
+# Add Mozgov column to split by
 cleveland17$Mozgov <- "Without Mozgov 2016-17"
 
 cleveland_combined <- rbind(cleveland_combined[c("DATE", "DEFF", "Mozgov")]
@@ -102,12 +96,8 @@ ggplot(cleveland_combined, aes(x = DATE, y = DEFF, color = Mozgov)) +
 
 
 
-
-
-
 ggplot(cleveland_combined, aes(x = DATE, y = DEFF, color = Mozgov)) +
   geom_point(size = 1, alpha = .4) +
-  # geom_boxplot(alpha = .4)  +
   geom_hline(yintercept=with_moz,    color = "turquoise",       lwd = .7)+
   geom_hline(yintercept=without_moz, color = "red",             lwd = .8)+
   geom_hline(yintercept=with_moz16, color = "green",            lwd = .7)+
