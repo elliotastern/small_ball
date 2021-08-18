@@ -1,15 +1,14 @@
 library(dplyr)
 library(ggplot2)
 
-#import data
+# import data
 champs <- read.csv("file:///C:/Users/stern/Downloads/nba_championchips_defense.csv")
 
 
 def_avg  <- mean(champs$champion.nba.com.defensive.rating)
 
-#visualization
+# visualization
 ggplot(champs, aes(x = Year, y = champion.nba.com.defensive.rating, color = Results)) +
-  # geom_point() + 
   geom_text(aes(label = Team), size = 3.5, fontface = "bold") +
   scale_y_continuous(name="Defensive Ratings", limits=c(0, 30)) +
   geom_hline(yintercept = def_avg, color = "black", lwd = .8) +
